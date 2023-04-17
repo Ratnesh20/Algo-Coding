@@ -50,7 +50,7 @@ class Solution:
             mid = (low + high) // 2
             if A[mid] < B:
                 low = mid + 1
-            elif:
+            else:
                 high = mid - 1
                 if A[mid] == B:
                     start = mid
