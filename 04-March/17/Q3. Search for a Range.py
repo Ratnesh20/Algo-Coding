@@ -52,6 +52,7 @@ class Solution:
                 low = mid + 1
             else:
                 high = mid - 1
+                # Keep Updating till the low > high
                 if A[mid] == B:
                     start = mid
         
