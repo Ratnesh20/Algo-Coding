@@ -45,36 +45,60 @@ class Solution:
     def solve(self, A, B):
 
         def insert_cow(A, min_dis, B):
-            last_cow = 0
-            B -= 1
+            last_cow = A[0]
+            cows_placed = 1
             for i in range(1,len(A)):
-                if i-last_cow >= min_dis:
-                    last_cow = i
-                    B -= 1
-                if B == 0:
-                    return True
-            if B > 0:
-                return False
-            
-
-                
+                if A[i]-last_cow >= min_dis:
+                    last_cow = A[i]
+                    cows_placed += 1
+                    if B == cows_placed:
+                        return True
+            return False
 
         n = len(A)
-        min_dis, left, right = -1, A[1]-A[0], A[n-1] - A[0]
+        A.sort()
+        min_dis, left, right = -1, float('inf'), float('-inf')
         
-        for i in range(2, n):
+        for i in range(n):
             if A[i] - A[i-1] < left:
                 left = A[i] - A[i-1]
+        right = A[n-1] - A[0]
         
-        while left < right:
+        while left <= right:
             mid = (left+right)//2
             
-            res = insert_cow(A, mid, B)
-            if res:
+            if insert_cow(A, mid, B):
                 min_dis = mid
                 left = mid + 1
             else:
                 right = mid - 1
         return min_dis
 
+
+
+# GPT
+def can_place_cows(A, B, distance):
+    last_stall = A[0]
+    cows_placed = 1
+    for i in range(1, len(A)):
+        if A[i] - last_stall >= distance:
+            cows_placed += 1
+            last_stall = A[i]
+            if cows_placed == B:
+                return True
+    return False
+
+def largest_minimum_distance(A, B):
+    A.sort()
+    left = 0
+    right = A[-1] - A[0]
+    result = 0
+    while left <= right:
+        mid = (left + right) // 2
+        if can_place_cows(A, B, mid):
+            result = mid
+            left = mid + 1
+        else:
+            right = mid - 1
+    return result
 
